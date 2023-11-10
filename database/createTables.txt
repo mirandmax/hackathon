@@ -1,0 +1,47 @@
+CREATE DATABASE truckit
+	DEFAULT CHARACTER SET latin1
+    COLLATE latin1_german1_ci
+
+CREATE TABLE companies(
+	cid int PRIMARY KEY AUTO_INCREMENT,
+	cname varchar(100) NOT NULL,
+	cnation varchar(50) NOT NULL,
+	cplz int(10) NOT NULL,
+	ccity varchar(50) NOT NULL,
+	cstreet varchar(100) NOT NULL,
+	chnr varchar(10) NOT NULL,
+	cphone varchar(30) NOT NULL,
+	cfax varchar(30),
+	cemail varchar(100) NOT NULL
+)ENGINE=INNODB
+
+CREATE TABLE trucks(
+	tid int PRIMARY KEY AUTO_INCREMENT,
+	tplate varchar(15) NOT NULL,
+	cid int,
+	FOREIGN KEY (cid)
+		REFERENCES companies(cid)
+		ON UPDATE CASCADE ON DELETE CASCADE
+)ENGINE=INNODB
+
+CREATE TABLE user(
+	uid int PRIMARY KEY AUTO_INCREMENT,
+	uname varchar(30) NOT NULL UNIQUE,
+	passwd varchar(256) NOT NULL,
+	cid int,
+	ucredits int DEFAULT 0,
+	FOREIGN KEY (cid)
+		REFERENCES companies(cid)
+		ON UPDATE CASCADE ON DELETE CASCADE
+)ENGINE=INNODB
+
+CREATE TABLE trucklocations(
+	tid int PRIMARY KEY AUTO_INCREMENT,
+	tdate DATE NOT NULL DEFAULT now(),
+	tlat double(9,6) NOT NULL,
+	tlon double(9,6) NOT NULL,
+	uid int NOT NULL,
+	FOREIGN KEY (uid)
+		REFERENCES user(uid)
+		ON UPDATE CASCADE ON DELETE CASCADE
+)ENGINE=INNODB;
