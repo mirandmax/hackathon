@@ -1,6 +1,6 @@
 CREATE DATABASE truckit
 	DEFAULT CHARACTER SET latin1
-    COLLATE latin1_german1_i
+    COLLATE latin1_german1_ci
 
 CREATE TABLE companies(
 	cid int PRIMARY KEY AUTO_INCREMENT,
