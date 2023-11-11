@@ -40,7 +40,7 @@ namespace api.Controllers
         }
 
         [HttpPost("login")]
-        public Boolean LoginUser(User user)
+        public ActionResult<CreationReward> LoginUser(User user)
         {
             using(var connection = new MySqlConnection("Server=localhost;Database=truckit;Uid=root;Pwd=;")){
                 connection.Open();
@@ -52,13 +52,13 @@ namespace api.Controllers
                         using(var reader = command.ExecuteReader())
                     {
                             if (reader.Read()){
-                                return true;
+                                return Ok();
                             }
-                            return false;   
+                            return Unauthorized();   
                     }
                     } catch (MySqlException e){
                         Console.WriteLine(e.Message);
-                        return false;
+                        return Unauthorized();
                     }
                 }
             }
