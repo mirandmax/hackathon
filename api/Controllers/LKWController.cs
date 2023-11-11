@@ -116,8 +116,8 @@ namespace api.Controllers
 
                                         using (var command3 = connection.CreateCommand())
                                         {
-                                            command3.CommandText = "SELECT cid FROM companies WHERE cname = @name";
-                                            command3.Parameters.AddWithValue("@name", lkw.CompanyName);
+                                            command3.CommandText = "SELECT cid FROM companies WHERE cemail = @mail";
+                                            command3.Parameters.AddWithValue("@mail", lkw.CompanyMail);
 
                                             command3.ExecuteNonQuery();
 

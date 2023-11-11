@@ -8,9 +8,6 @@ namespace api.Models {
         public string LicensePlate { get; set; } = string.Empty;
 
         [Required]
-        public string CompanyName { get; set; } = string.Empty;
-
-        [Required]
         public string CompanyMail { get; set; } = string.Empty;
 
         [Required]
