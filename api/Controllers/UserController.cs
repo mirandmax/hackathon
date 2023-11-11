@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data;
-
-
+using System.Security.Cryptography;
+using System;
+using System.Text;
 using api.Models;
 using System.Text.Json;
 using MySql.Data.MySqlClient;
@@ -20,6 +21,7 @@ namespace api.Controllers
         [HttpPost("signup")]
         public ActionResult<CreationReward> CreateUser(User user)
         {
+            user.Password = ComputeSha256Hash(user.Password);
             using(var connection = new MySqlConnection("Server=localhost;Database=truckit;Uid=root;Pwd=;")){
                 connection.Open();
                 using(var command = connection.CreateCommand()){
@@ -42,6 +44,7 @@ namespace api.Controllers
         [HttpPost("login")]
         public ActionResult<CreationReward> LoginUser(User user)
         {
+            user.Password = ComputeSha256Hash(user.Password);
             using(var connection = new MySqlConnection("Server=localhost;Database=truckit;Uid=root;Pwd=;")){
                 connection.Open();
                 using(var command = connection.CreateCommand()){
@@ -63,6 +66,22 @@ namespace api.Controllers
                 }
             }
         }
+    static string ComputeSha256Hash(string rawData)
+    {
+        // Create a SHA256   
+        using (SHA256 sha256Hash = SHA256.Create())
+        {
+            // ComputeHash - returns byte array  
+            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
 
+            // Convert byte array to a string   
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < bytes.Length; i++)
+            {
+            builder.Append(bytes[i].ToString("x2"));
+            }
+            return builder.ToString();
+        }
+    }
     }
 }
