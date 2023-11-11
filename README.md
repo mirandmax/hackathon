@@ -26,8 +26,3 @@ TruckIt is a project aimed at analyzing the operations of trucking companies bas
 
 1. Execute the SQL create commands in the 'database' folder to set up the required database.
 2. Update the necessary IP addresses in the 'api' folder for the ASP.NET Core API.
-
-**Note:**
-Ensure proper handling of sensitive information, especially IP addresses, to maintain system security.
-
-*Contributions and improvements are welcome!*
