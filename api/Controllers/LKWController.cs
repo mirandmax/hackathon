@@ -191,6 +191,64 @@ namespace api.Controllers
             return Ok(reward);
         }
 
-        
+        [HttpGet("getTruckCount")]
+        public int getTruckCount(){
+            using(var connection = new MySqlConnection("Server=localhost;Database=truckit;Uid=root;Pwd=;")){
+                connection.Open();
+                using(var command = connection.CreateCommand()){
+                    command.CommandText = "SELECT COUNT(*) FROM trucks";
+                        using(var reader = command.ExecuteReader())
+                        {
+                            reader.Read();
+                            return reader.GetInt32(0);
+                        }
+                }
+            }
+        }
+
+        [HttpGet("getUserCount")]
+        public int getUserCount(){
+            using(var connection = new MySqlConnection("Server=localhost;Database=truckit;Uid=root;Pwd=;")){
+                connection.Open();
+                using(var command = connection.CreateCommand()){
+                    command.CommandText = "SELECT COUNT(*) FROM user";
+                        using(var reader = command.ExecuteReader())
+                        {
+                            reader.Read();
+                            return reader.GetInt32(0);
+                        }
+                }
+            }
+        }
+        [HttpGet("getCompanyCount")]
+        public int getCompanyCount(){
+            using(var connection = new MySqlConnection("Server=localhost;Database=truckit;Uid=root;Pwd=;")){
+                connection.Open();
+                using(var command = connection.CreateCommand()){
+                    command.CommandText = "SELECT COUNT(*) FROM companies";
+                        using(var reader = command.ExecuteReader())
+                        {
+                            reader.Read();
+                            return reader.GetInt32(0);
+                        }
+                }
+            }
+        }
+
+        [HttpGet("getTruckCountToday")]
+        public int getTruckCountToday(){
+            using(var connection = new MySqlConnection("Server=localhost;Database=truckit;Uid=root;Pwd=;")){
+                connection.Open();
+                using(var command = connection.CreateCommand()){
+                    command.CommandText = "SELECT COUNT(*) FROM trucklocations WHERE tdate = CURDATE()";
+                        using(var reader = command.ExecuteReader())
+                        {
+                            reader.Read();
+                            return reader.GetInt32(0);
+                        }
+                }
+            }
+        }
+
     }
 }
