@@ -1,18 +1,30 @@
 ﻿<Properties StartupConfiguration="{13DE4A36-9162-42A7-A885-A39CE51B6F4D}|https">
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.api PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="api/Controllers/LKWController.cs">
+    <Files>
+      <File FileName="api/Controllers/LKWController.cs" Line="188" Column="8" />
+      <File FileName="api/Models/CreationReward.cs" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="hackathon" expanded="True" selected="True" />
+          <Node name="hackathon">
+            <Node name="api">
+              <Node name="Controllers">
+                <Node name="LKWController.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/maxmirandola/Desktop/hackathon/api/Controllers/LKWController.cs" relfile="api/Controllers/LKWController.cs" line="175" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
