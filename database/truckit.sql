@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 10, 2023 at 10:38 PM
+-- Generation Time: Nov 11, 2023 at 12:11 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -29,16 +29,24 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `companies` (
   `cid` int(11) NOT NULL,
-  `cname` varchar(100) NOT NULL,
-  `cnation` varchar(50) NOT NULL,
-  `cplz` int(10) NOT NULL,
-  `ccity` varchar(50) NOT NULL,
-  `cstreet` varchar(100) NOT NULL,
-  `chnr` varchar(10) NOT NULL,
+  `cname` varchar(100) DEFAULT NULL,
+  `cnation` varchar(50) DEFAULT NULL,
+  `cplz` int(10) DEFAULT NULL,
+  `ccity` varchar(50) DEFAULT NULL,
+  `cstreet` varchar(100) DEFAULT NULL,
+  `chnr` varchar(10) DEFAULT NULL,
   `cphone` varchar(30) NOT NULL,
   `cfax` varchar(30) DEFAULT NULL,
   `cemail` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_german1_ci;
+
+--
+-- Dumping data for table `companies`
+--
+
+INSERT INTO `companies` (`cid`, `cname`, `cnation`, `cplz`, `ccity`, `cstreet`, `chnr`, `cphone`, `cfax`, `cemail`) VALUES
+(1, 'test', 'a', 2, 'a', 'a', 'a', 'a', 'a', 'a'),
+(2, NULL, NULL, NULL, NULL, NULL, NULL, '+39 123 345 5678', NULL, 'aaa');
 
 -- --------------------------------------------------------
 
@@ -54,6 +62,17 @@ CREATE TABLE `trucklocations` (
   `uid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_german1_ci;
 
+--
+-- Dumping data for table `trucklocations`
+--
+
+INSERT INTO `trucklocations` (`tid`, `tdate`, `tlat`, `tlon`, `uid`) VALUES
+(1, '2020-01-01', 50.000000, 10.000000, 15),
+(1, '2023-11-11', 50.000000, 10.000000, 15),
+(2, '2023-11-01', 51.000000, 10.000000, 15),
+(2, '2023-11-10', 50.000210, 10.009300, 17),
+(2, '2023-11-11', 50.000139, 10.009760, 16);
+
 -- --------------------------------------------------------
 
 --
@@ -65,6 +84,14 @@ CREATE TABLE `trucks` (
   `tplate` varchar(15) NOT NULL,
   `cid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_german1_ci;
+
+--
+-- Dumping data for table `trucks`
+--
+
+INSERT INTO `trucks` (`tid`, `tplate`, `cid`) VALUES
+(1, 'AA111AA', 2),
+(2, 'fdnskalfndsla', 1);
 
 -- --------------------------------------------------------
 
@@ -81,6 +108,15 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_german1_ci;
 
 --
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`uid`, `uname`, `passwd`, `cid`, `ucredits`) VALUES
+(15, 'taschler', '15ddd9fff661a0bccb3572fe77903eea', 1, 0),
+(16, 'mirandola', '92b7008f8d4950d745b57e3a6085829f', 2, 0),
+(17, 'wachtler', '97a9523a99f7d1e0a361257d988f01aa', NULL, 0);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -94,7 +130,7 @@ ALTER TABLE `companies`
 -- Indexes for table `trucklocations`
 --
 ALTER TABLE `trucklocations`
-  ADD PRIMARY KEY (`tid`),
+  ADD PRIMARY KEY (`tid`,`tdate`),
   ADD KEY `uid` (`uid`);
 
 --
@@ -120,25 +156,25 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `trucklocations`
 --
 ALTER TABLE `trucklocations`
-  MODIFY `tid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `tid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `trucks`
 --
 ALTER TABLE `trucks`
-  MODIFY `tid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `tid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Constraints for dumped tables
