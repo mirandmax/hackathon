@@ -29,8 +29,7 @@ namespace api.Controllers
                     try{
                         using(var reader = command.ExecuteReader())
                     {
-                            Console.WriteLine(reader.Read());
-                            return new CreationReward(true, 10);   
+                            return Ok();   
                     }
                     } catch (MySqlException e){
                         Console.WriteLine(e.Message);
