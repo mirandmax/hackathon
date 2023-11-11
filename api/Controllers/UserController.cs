@@ -8,6 +8,8 @@ using System.Text.Json;
 using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Crypto.Prng;
 using System.Reflection.Metadata.Ecma335;
+using System.Text.RegularExpressions;
+using System.Collections;
 
 
 namespace api.Controllers
@@ -44,6 +46,7 @@ namespace api.Controllers
         [HttpPost("login")]
         public ActionResult<CreationReward> LoginUser(User user)
         {
+            Console.WriteLine(extractPhoneNumber("Franspors Lexp�rienceL. fait la difference+ Transports Affr�tement Logistique + Stockageirernjan eanceioneFRANCE-UR04 68 21 53 35atl.transports@atl6s.tr�i60708"));
             user.Password = ComputeSha256Hash(user.Password);
             using(var connection = new MySqlConnection("Server=localhost;Database=truckit;Uid=root;Pwd=;")){
                 connection.Open();
@@ -83,5 +86,44 @@ namespace api.Controllers
             return builder.ToString();
         }
     }
+    static string extractPhoneNumber(string phone){
+        const string MatchPhonePattern = ".*[^0-9-( )] ([0-9-( )]+)$";
+        Regex rx = new Regex(MatchPhonePattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        MatchCollection matches = rx.Matches(phone);
+        return matches[0].Value.ToString();
     }
+    [HttpPost("isNear")]
+    public Boolean isNear(double tlat1, double tlon1, double tlat2, double tlon2){
+        if(Math.Abs(tlat1-tlat2) < 0.01 && Math.Abs(tlon1-tlon2) < 0.01){
+            return true;
+        }
+        return false;
+    }
+
+    [HttpPost("getNearLocations")]
+    public ActionResult<string> getNearLocations(int tlat1, int tlon1){
+        var result = new Hashtable();
+        using(var connection = new MySqlConnection("Server=localhost;Database=truckit;Uid=root;Pwd=;")){
+                connection.Open();
+                using(var command = connection.CreateCommand()){
+                    command.CommandText = "SELECT cid, COUNT(*) FROM trucklocations WHERE tlat BETWEEN @tlat1-0.1 AND @tlat1+0.1 AND tlon BETWEEN @tlon1-0.1 AND @tlon1+0.1 GROUP BY cid ORDER BY COUNT(*) DESC" ;
+                    command.Parameters.AddWithValue("@tlat1", tlat1);
+                    command.Parameters.AddWithValue("@tlon1", tlon1);
+                    using(var reader = command.ExecuteReader())
+                    {
+                        while(reader.Read())
+                        {
+                            result.Add(reader.GetString(0),reader.GetInt32(1));
+                        }
+                    }
+                   
+                }
+    }
+    return JsonSerializer.Serialize(result);
+    }
+
+
+    
+
+    
 }
