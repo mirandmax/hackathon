@@ -46,7 +46,6 @@ namespace api.Controllers
         [HttpPost("login")]
         public ActionResult<CreationReward> LoginUser(User user)
         {
-            Console.WriteLine(extractPhoneNumber("Franspors Lexp�rienceL. fait la difference+ Transports Affr�tement Logistique + Stockageirernjan eanceioneFRANCE-UR04 68 21 53 35atl.transports@atl6s.tr�i60708"));
             user.Password = ComputeSha256Hash(user.Password);
             using(var connection = new MySqlConnection("Server=localhost;Database=truckit;Uid=root;Pwd=;")){
                 connection.Open();
@@ -106,19 +105,21 @@ namespace api.Controllers
         using(var connection = new MySqlConnection("Server=localhost;Database=truckit;Uid=root;Pwd=;")){
                 connection.Open();
                 using(var command = connection.CreateCommand()){
-                    command.CommandText = "SELECT cid, COUNT(*) FROM trucklocations WHERE tlat BETWEEN @tlat1-0.1 AND @tlat1+0.1 AND tlon BETWEEN @tlon1-0.1 AND @tlon1+0.1 GROUP BY cid ORDER BY COUNT(*) DESC" ;
+                    command.CommandText = "SELECT user.cid, COUNT(*) FROM trucklocations,  user WHERE tlat BETWEEN @tlat1-0.1 AND @tlat1+0.1 AND tlon BETWEEN @tlon1-0.1 AND @tlon1+0.1 AND tdate > SUBDATE(now(), 30) AND trucklocations.uid = user.uid GROUP BY user.cid ORDER BY COUNT(*) DESC" ;
                     command.Parameters.AddWithValue("@tlat1", tlat1);
                     command.Parameters.AddWithValue("@tlon1", tlon1);
                     using(var reader = command.ExecuteReader())
                     {
                         while(reader.Read())
                         {
-                            result.Add(reader.GetString(0),reader.GetInt32(1));
+                            Console.WriteLine(reader.GetString(0));
+                            //result.Add(reader.GetString(0),reader.GetInt32(1));
                         }
                     }
                    
                 }
     }
+    Console.WriteLine(JsonSerializer.Serialize(result));
     return JsonSerializer.Serialize(result);
     }
 
