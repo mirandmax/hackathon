@@ -130,7 +130,7 @@ namespace api.Controllers
                                                         command4.CommandText = "INSERT INTO trucks (tplate, cid) VALUES (@plate, @cid)";
                                                         command4.Parameters.AddWithValue("@plate", lkw.LicensePlate);
                                                         command4.Parameters.AddWithValue("@cid", reader3.GetInt32(0));
-
+                                                        reader3.Close();
                                                         command4.ExecuteNonQuery();
                                                     }
                                                 }
