@@ -1,0 +1,26 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Teilt den Bildschirm in 2 Spalten */
+    grid-template-rows: repeat(2, 1fr); /* Teilt jede Spalte in 2 Reihen */
+    gap: 20px; /* Abstand zwischen den Abschnitten */
+    height: 100vh; /* Füllt die gesamte Bildschirmhöhe */
+    padding: 20px;
+}
+
+.grid-item {
+    border-radius: 15px; /* Abgerundete Ecken */
+    border: 1px solid #ddd; /* Beispielrahmen */
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f4f4f4; /* Hintergrundfarbe */
+    color: #333; /* Textfarbe */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Schatten für den Rahmen */
+}

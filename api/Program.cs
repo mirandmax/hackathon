@@ -6,7 +6,7 @@ builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowMyApp", builder =>
             {
-                builder.WithOrigins("exp://172.20.10.2:8081") // Ersetzen Sie dies durch den Expo-Tunnel-Link Ihrer App
+                builder.AllowAnyOrigin() // Ersetzen Sie dies durch den Expo-Tunnel-Link Ihrer App
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             });

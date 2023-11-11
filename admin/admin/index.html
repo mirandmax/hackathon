@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>truckit Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        .title {
+            font-weight: bold;
+            font-size: 5em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .data {
+            font-size: 14em;
+            text-align: center;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .search-bar {
+            background: #f4f4f4;
+            border-radius: 15px;
+            padding: 10px;  
+            width: calc(100% - 62px);
+            margin-left: 20px;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .longitude-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 1.5em;
+            padding: 10px;
+            border-radius: 10px;
+            margin-right: 780px;
+        }
+
+        .latitude-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 1.5em;
+            padding: 10px;
+            border-radius: 10px;
+            margin-right: 780px;
+        }
+
+        .search-button {
+            border: none;
+            background: #4CAF50; /* Hintergrundfarbe */
+            color: white; /* Textfarbe */
+            padding: 10px 20px; /* Innenabstand */
+            font-size: 1.5em; /* Schriftgröße */
+            border-radius: 10px; /* Abgerundete Ecken */
+            cursor: pointer;
+            transition: background 0.3s ease; /* Farbübergang */
+        }
+
+        .search-button:hover {
+            background: #45a049; /* Farbwechsel bei Hover */
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 20px;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            background: #f4f4f4;
+            color: #333;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <div class="grid-item" id="section1">
+            <div class="title">Truck Count</div>
+            <div class="data"></div>
+        </div>
+        <div class="grid-item" id="section2">
+            <div class="title">User Count</div>
+            <div class="data"></div>
+        </div>
+        <div class="grid-item" id="section3">
+            <div class="title">Company Count</div>
+            <div class="data"></div>
+        </div>
+        <div class="grid-item" id="section4">
+            <div class="title">Truck Count Today</div>
+            <div class="data"></div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const apiUrls = [
+                'http://172.20.10.2:5266/api/LKW/getTruckCount',
+                'http://172.20.10.2:5266/api/LKW/getUserCount',
+                'http://172.20.10.2:5266/api/LKW/getCompanyCount',
+                'http://172.20.10.2:5266/api/LKW/getTruckCountToday'
+            ];
+
+            const gridItems = document.querySelectorAll('.grid-item');
+            const searchButton = document.querySelector('.search-button');
+            const latitudeInput = document.querySelector('.latitude-input');
+            const longitudeInput = document.querySelector('.longitude-input');
+
+            
+
+
+
+
+            async function fetchDataAndUpdateGrid(url, index) {
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    gridItems[index].querySelector('.data').innerText = data; // Zeige die Zahl an
+
+                    // Wenn die API-Antwort ein Objekt ist, zeige eine spezifische Eigenschaft an, z.B. data.count
+                    // gridItems[index].querySelector('.data').innerText = data.count;
+                } catch (error) {
+                    console.error('Fehler beim Abrufen der Daten:', error);
+                    gridItems[index].querySelector('.data').innerText = 'Fehler beim Abrufen der Daten';
+                }
+            }
+
+            apiUrls.forEach((url, index) => {
+                fetchDataAndUpdateGrid(url, index);
+            });
+        });
+    </script>
+</body>
+</html>
