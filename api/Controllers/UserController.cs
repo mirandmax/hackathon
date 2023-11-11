@@ -6,6 +6,7 @@ using api.Models;
 using System.Text.Json;
 using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Crypto.Prng;
+using System.Reflection.Metadata.Ecma335;
 
 
 namespace api.Controllers
@@ -16,7 +17,7 @@ namespace api.Controllers
     {
         
         // POST api/LKW
-        [HttpPost]
+        [HttpPost("signup")]
         public ActionResult<CreationReward> CreateUser(User user)
         {
             using(var connection = new MySqlConnection("Server=localhost;Database=truckit;Uid=root;Pwd=;")){
@@ -29,7 +30,7 @@ namespace api.Controllers
                         using(var reader = command.ExecuteReader())
                     {
                             Console.WriteLine(reader.Read());
-                            return new CreationReward(true, 0);   
+                            return new CreationReward(true, 10);   
                     }
                     } catch (MySqlException e){
                         Console.WriteLine(e.Message);
@@ -38,6 +39,31 @@ namespace api.Controllers
                 }
             }
         }
-        
+
+        [HttpPost("login")]
+        public Boolean LoginUser(User user)
+        {
+            using(var connection = new MySqlConnection("Server=localhost;Database=truckit;Uid=root;Pwd=;")){
+                connection.Open();
+                using(var command = connection.CreateCommand()){
+                    command.CommandText = "SELECT * FROM user WHERE uname = @uname AND passwd = @passwd";
+                    command.Parameters.AddWithValue("@uname", user.Name);
+                    command.Parameters.AddWithValue("@passwd", user.Password);
+                    try{
+                        using(var reader = command.ExecuteReader())
+                    {
+                            if (reader.Read()){
+                                return true;
+                            }
+                            return false;   
+                    }
+                    } catch (MySqlException e){
+                        Console.WriteLine(e.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
     }
 }
