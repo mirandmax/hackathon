@@ -68,6 +68,28 @@ namespace api.Controllers
                     {
                         if(reader.Read())
                         {
+                            using(var command3 = connection.CreateCommand())
+                            {
+                                command3.CommandText = "SELECT uid FROM user WHERE uname = @name";
+                                command3.Parameters.AddWithValue("@name", lkw.UserName);
+                                reader.Close();
+                                using(var reader3 = command3.ExecuteReader())
+                                {
+                                    if(reader3.Read())
+                                    {
+                                        var temp = reader3.GetInt32(0);
+                                        reader3.Close();
+
+                                        using(var command4 = connection.CreateCommand())
+                                        {
+                                            command4.CommandText = "UPDATE user SET ucredits = ucredits + 5 WHERE uid = @uid";
+                                            command4.Parameters.AddWithValue("@uid", temp);
+                                            command4.ExecuteNonQuery();
+                                        }
+                                    }
+                                }
+                            }
+
                             return new CreationReward(false, 5);
                         }
                     }
@@ -175,6 +197,13 @@ namespace api.Controllers
                                         command2.ExecuteNonQuery();
 
                                         reward = new CreationReward(true, 10);
+
+                                        using(var command3 = connection.CreateCommand())
+                                        {
+                                            command3.CommandText = "UPDATE user SET ucredits = ucredits + 10 WHERE uid = @uid";
+                                            command3.Parameters.AddWithValue("@uid", temp);
+                                            command3.ExecuteNonQuery();
+                                        }
                                     }
 
                                 } 
