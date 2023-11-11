@@ -1,6 +1,16 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowMyApp", builder =>
+            {
+                builder.WithOrigins("exp://172.20.10.18:8081") // Ersetzen Sie dies durch den Expo-Tunnel-Link Ihrer App
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            });
+        });
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -15,6 +25,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseCors("AllowMyApp");
 
 app.UseRouting();
 
